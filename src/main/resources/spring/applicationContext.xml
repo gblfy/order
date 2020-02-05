@@ -12,7 +12,7 @@
     <!--扫描整体程序包-->
     <context:component-scan base-package="com.gblfy.order"/>
     <!--引入数据库配置文件-->
-    <context:property-placeholder location="classpath:mybatis/jdbc.properties"/>
+    <context:property-placeholder location="classpath:mybatis/*.properties"/>
     <!-- 数据源：DB连接配置 -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${jdbc.driver}"/>

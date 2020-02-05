@@ -65,11 +65,11 @@
         </dependency>
 
         <!-- mysql -->
-       <!-- <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.39</version>
-        </dependency>-->
+        <!-- <dependency>
+             <groupId>mysql</groupId>
+             <artifactId>mysql-connector-java</artifactId>
+             <version>5.1.39</version>
+         </dependency>-->
 
         <!-- Spring MVC support Start-->
         <dependency>
@@ -118,6 +118,19 @@
             <artifactId>standard</artifactId>
             <version>1.1.2</version>
             <scope>runtime</scope>
+        </dependency>
+
+        <!--spring整合rabbitmq-->
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
+            <version>1.4.0.RELEASE</version>
+        </dependency>
+        <!--MQ消息json和对象转换工具类-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.2</version>
         </dependency>
     </dependencies>
 
