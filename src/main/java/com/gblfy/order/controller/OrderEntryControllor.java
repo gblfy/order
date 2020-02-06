@@ -61,23 +61,22 @@ public class OrderEntryControllor {
         session.setAttribute("categoryManager", categoryManager);
 
 
-
         //配置cookie
-        if(useCookie != null && useCookie.equalsIgnoreCase("on")){
+        if (useCookie != null && useCookie.equalsIgnoreCase("on")) {
             int expire = 3600 * 24 * 30; //如果使用cookie，则将过期时间设为1个月
             log.info("用户选择使用cookie，进入使用cookies的控制逻辑！");
-            Cookie ckUseCookie = new Cookie("ckUseCookie","on");
-            Cookie ckCid = new Cookie("ckCid",cid);
+            Cookie ckUseCookie = new Cookie("ckUseCookie", "on");
+            Cookie ckCid = new Cookie("ckCid", cid);
             ckUseCookie.setMaxAge(expire);
             ckCid.setMaxAge(expire);
 
             response.addCookie(ckUseCookie);
             response.addCookie(ckCid);
-        }else{
+        } else {
             int expire = -1; //如果使用cookie，则将过期时间设为-1 控制该cookie立刻过期
             log.info("用户没有选择使用cookie，进入不使用cookies的控制逻辑！");
-            Cookie ckUseCookie =new Cookie("ckUseCookie","");
-            Cookie ckCid =new Cookie("ckCid","");
+            Cookie ckUseCookie = new Cookie("ckUseCookie", "");
+            Cookie ckCid = new Cookie("ckCid", "");
             ckUseCookie.setMaxAge(expire);
             ckCid.setMaxAge(expire);
 
