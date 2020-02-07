@@ -1,4 +1,4 @@
-package com.gblfy.order.model;
+package com.gblfy.order.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Category {
-
+public class Menu {
+    int mid;
     int cid;
-    String cname;
-
+    String mname;
+    float price;
 }

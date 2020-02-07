@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
-public interface CategoryDAO {
+public interface FisCallingTraceDAO {
     @Select("SELECT * FROM categories;")
     @Results({
             @Result(column = "cid", property = "cid"),

@@ -1,6 +1,6 @@
 package com.gblfy.order.dao;
 
-import com.gblfy.order.model.Menu;
+import com.gblfy.order.pojo.Menu;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

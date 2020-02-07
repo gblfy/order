@@ -1,6 +1,6 @@
 package com.gblfy.order.controller;
 
-import com.gblfy.order.model.Menu;
+import com.gblfy.order.pojo.Menu;
 import com.gblfy.order.service.CategoryManager;
 import com.gblfy.order.service.MenuManager;
 import lombok.extern.slf4j.Slf4j;

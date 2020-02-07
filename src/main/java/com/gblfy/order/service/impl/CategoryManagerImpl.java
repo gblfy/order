@@ -1,7 +1,7 @@
 package com.gblfy.order.service.impl;
 
 import com.gblfy.order.dao.CategoryDAO;
-import com.gblfy.order.model.Category;
+import com.gblfy.order.pojo.Category;
 import com.gblfy.order.service.CategoryManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

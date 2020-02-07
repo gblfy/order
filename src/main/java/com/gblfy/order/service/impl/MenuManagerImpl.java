@@ -1,7 +1,7 @@
 package com.gblfy.order.service.impl;
 
 import com.gblfy.order.dao.MenuDAO;
-import com.gblfy.order.model.Menu;
+import com.gblfy.order.pojo.Menu;
 import com.gblfy.order.service.MenuManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

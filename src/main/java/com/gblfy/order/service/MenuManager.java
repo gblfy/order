@@ -1,6 +1,6 @@
 package com.gblfy.order.service;
 
-import com.gblfy.order.model.Menu;
+import com.gblfy.order.pojo.Menu;
 
 import java.util.List;
 

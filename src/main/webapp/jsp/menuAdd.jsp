@@ -1,6 +1,6 @@
 ﻿
 <%@ page import="com.gblfy.order.service.CategoryManager" %>
-<%@ page import="com.gblfy.order.model.Category" %>
+<%@ page import="com.gblfy.order.pojo.Category" %>
 <%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>

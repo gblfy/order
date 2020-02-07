@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit
+	http://www.springframework.org/schema/rabbit/spring-rabbit-1.4.xsd
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <!--消费者配置如下：-->
+    <!-- 定义RabbitMQ的连接工厂 -->
+    <rabbit:connection-factory id="connectionFactory"
+                               host="${rabbitmq.host}" port="${rabbitmq.port}" username="${rabbitmq.username}"
+                               password="${rabbitmq.password}" virtual-host="${rabbitmq.vhost}"/>
+    <!-- 管理消息队列 -->
+    <rabbit:admin connection-factory="connectionFactory"/>
+
+    <!-- 定义一个队列或者多个队列 -->
+    <rabbit:queue name="FIS-TRACE-QUEUE" auto-declare="true" durable="true"/>
+    <rabbit:queue name="FIS-TRACE-MONITOR-QUEUE" auto-declare="true" durable="true"/>
+    <rabbit:queue name="ORDER-MENU-CATEGORY-QUEUE" auto-declare="true" durable="true"/>
+
+    <!-- 声明多个消费者对象 -->
+    <bean id="fisMQMsgHandler" class="com.gblfy.order.mqhandler.FisMQMsgHandler"/>
+    <bean id="fisMQMonitorMsgHandler" class="com.gblfy.order.mqhandler.FisMQMonitorMsgHandler"/>
+    <bean id="mQSimpleMsgHandler" class="com.gblfy.order.mqhandler.MQSimpleMsgHandler"/>
+
+    <!-- 监听队列 -->
+    <rabbit:listener-container connection-factory="connectionFactory">
+        <rabbit:listener ref="fisMQMsgHandler" method="execute" queue-names="FIS-TRACE-QUEUE"/>
+        <rabbit:listener ref="fisMQMonitorMsgHandler" method="onMessage" queue-names="FIS-TRACE-MONITOR-QUEUE"/>
+        <rabbit:listener ref="mQSimpleMsgHandler" method="execute" queue-names="ORDER-MENU-CATEGORY-QUEUE"/>
+    </rabbit:listener-container>
+</beans>

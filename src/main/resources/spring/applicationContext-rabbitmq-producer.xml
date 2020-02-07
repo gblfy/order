@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit
+	http://www.springframework.org/schema/rabbit/spring-rabbit-1.4.xsd
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <!--生产者者配置如下：-->
+    <!-- 定义RabbitMQ的连接工厂 -->
+    <rabbit:connection-factory id="connectionFactory"
+                               host="${rabbitmq.host}" port="${rabbitmq.port}" username="${rabbitmq.username}"
+                               password="${rabbitmq.password}" virtual-host="${rabbitmq.vhost}"/>
+    <!-- 管理消息队列 -->
+    <rabbit:admin connection-factory="connectionFactory"/>
+
+    <!--此处为配置文件方式 管控台配置模式需要注释  默认模式管控台 Start-->
+    <!-- 定义一个队列或者多个队列  自动声明-->
+    <!--<rabbit:queue name="FIS-TRACE-QUEUE" auto-declare="true" durable="true"/>
+    <rabbit:queue name="FIS-TRACE-MONITOR-QUEUE" auto-declare="true" durable="true"/>
+    <rabbit:queue name="ORDER-MENU-CATEGORY-QUEUE" auto-declare="true" durable="true"/>
+
+    <rabbit:direct-exchange name="ORDER-TRACE-EXCHANGE">
+        <rabbit:bindings>
+            &lt;!&ndash; 可绑定多个队列，发送的时候指定key进行发送 &ndash;&gt;
+            <rabbit:binding queue="FIS-TRACE-QUEUE" key="order.trace"/>
+            <rabbit:binding queue="FIS-TRACE-MONITOR-QUEUE" key="order.trace2"/>
+            <rabbit:binding queue="ORDER-MENU-CATEGORY-QUEUE" key="order.menu"/>
+            <rabbit:binding queue="ORDER-MENU-CATEGORY-QUEUE" key="order.category"/>
+        </rabbit:bindings>
+    </rabbit:direct-exchange>-->
+    <!--此处为配置文件方式 管控台配置模式需要注释  默认模式管控台 End-->
+    
+    <!-- 定义交换机 自动声明-->
+    <rabbit:direct-exchange name="ORDER-TRACE-EXCHANGE"
+                            auto-declare="true" durable="true"/>
+    <!-- 定义MQ消息模板 -->
+    <rabbit:template id="rabbitTemplate"
+                     connection-factory="connectionFactory" exchange="ORDER-TRACE-EXCHANGE"/>
+</beans>
