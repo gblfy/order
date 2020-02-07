@@ -14,14 +14,31 @@ import java.util.Date;
 
 @Controller
 @Slf4j
-public class SimpleMQMsgSendController {
+public class TopicMQMsgSendController {
 
     @Autowired
     private MQSendMsgUtils mqSendMsgUtils;
 
-    @RequestMapping(value = "/sendSimpleMQMsg", method = RequestMethod.GET)
+    @RequestMapping(value = "/snedUserMQMsg", method = RequestMethod.GET)
     @ResponseBody
-    public String snedSimpleMQMsg() {
+    public String snedUserMQMsg() {
+
+        /**
+         * 模拟发送数据
+         * 1. serviceName 接口名称
+         * 2. type        路由routingKey
+         */
+        String serviceName = "my name serviceName";
+        String type = "user";
+
+        //发送消息到MQ的交换机，通知其他系统
+        mqSendMsgUtils.sendMsg(serviceName, type);
+
+        return "snedUserMQMsg success !!!";
+    }
+    @RequestMapping(value = "/sendMenuMQMsg", method = RequestMethod.GET)
+    @ResponseBody
+    public String sendMenuMQMsg() {
 
         /**
          * 模拟发送数据
@@ -34,12 +51,12 @@ public class SimpleMQMsgSendController {
         //发送消息到MQ的交换机，通知其他系统
         mqSendMsgUtils.sendMsg(serviceName, type);
 
-        return "snedSimpleMQMsg success !!!";
+        return "sendMenuMQMsg success !!!";
     }
 
-    @RequestMapping(value = "/sendSimpleMQMsg2", method = RequestMethod.GET)
+    @RequestMapping(value = "/snedCategoryMQMsg", method = RequestMethod.GET)
     @ResponseBody
-    public String snedSimpleMQMsg2() {
+    public String snedCategoryMQMsg() {
 
         /**
          * 模拟发送数据
@@ -47,12 +64,12 @@ public class SimpleMQMsgSendController {
          * 2. type        路由routingKey
          */
         String serviceName = "my name serviceName2";
-        String type = "category";
+        String type = "category.gblfy";
 
         //发送消息到MQ的交换机，通知其他系统
         mqSendMsgUtils.sendMsg(serviceName, type);
 
-        return "snedSimpleMQMsg success !!!";
+        return "snedCategoryMQMsg success !!!";
     }
 
     public static void main(String[] args) {

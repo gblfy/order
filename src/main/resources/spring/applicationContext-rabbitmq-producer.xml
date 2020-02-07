@@ -17,24 +17,21 @@
 
     <!--此处为配置文件方式 管控台配置模式需要注释  默认模式管控台 Start-->
     <!-- 定义一个队列或者多个队列  自动声明-->
-    <!--<rabbit:queue name="FIS-TRACE-QUEUE" auto-declare="true" durable="true"/>
-    <rabbit:queue name="FIS-TRACE-MONITOR-QUEUE" auto-declare="true" durable="true"/>
-    <rabbit:queue name="ORDER-MENU-CATEGORY-QUEUE" auto-declare="true" durable="true"/>
+    <!--<rabbit:queue name="ORDER-CATEGORY-GBLFY-QUEUE" auto-declare="true" durable="true"/>
+    <rabbit:queue name="ORDER-USER-MENU-QUEUE" auto-declare="true" durable="true"/>
 
-    <rabbit:direct-exchange name="ORDER-TRACE-EXCHANGE">
+    <rabbit:topic-exchange name="ORDER-TRACE-EXCHANGE">
         <rabbit:bindings>
             &lt;!&ndash; 可绑定多个队列，发送的时候指定key进行发送 &ndash;&gt;
-            <rabbit:binding queue="FIS-TRACE-QUEUE" key="order.trace"/>
-            <rabbit:binding queue="FIS-TRACE-MONITOR-QUEUE" key="order.trace2"/>
-            <rabbit:binding queue="ORDER-MENU-CATEGORY-QUEUE" key="order.menu"/>
-            <rabbit:binding queue="ORDER-MENU-CATEGORY-QUEUE" key="order.category"/>
+            <rabbit:binding queue="ORDER-CATEGORY-GBLFY-QUEUE" pattern="order.#"/>
+            <rabbit:binding queue="ORDER-USER-MENU-QUEUE" pattern="order.*"/>
         </rabbit:bindings>
-    </rabbit:direct-exchange>-->
+    </rabbit:topic-exchange>-->
     <!--此处为配置文件方式 管控台配置模式需要注释  默认模式管控台 End-->
-    
+
     <!-- 定义交换机 自动声明-->
-    <rabbit:direct-exchange name="ORDER-TRACE-EXCHANGE"
-                            auto-declare="true" durable="true"/>
+    <rabbit:topic-exchange name="ORDER-TRACE-EXCHANGE"
+                           auto-declare="true" durable="true"/>
     <!-- 定义MQ消息模板 -->
     <rabbit:template id="rabbitTemplate"
                      connection-factory="connectionFactory" exchange="ORDER-TRACE-EXCHANGE"/>

@@ -16,19 +16,16 @@
     <rabbit:admin connection-factory="connectionFactory"/>
 
     <!-- 定义一个队列或者多个队列 -->
-    <rabbit:queue name="FIS-TRACE-QUEUE" auto-declare="true" durable="true"/>
-    <rabbit:queue name="FIS-TRACE-MONITOR-QUEUE" auto-declare="true" durable="true"/>
-    <rabbit:queue name="ORDER-MENU-CATEGORY-QUEUE" auto-declare="true" durable="true"/>
+    <rabbit:queue name="ORDER-USER-MENU-QUEUE" auto-declare="true" durable="true"/>
+    <rabbit:queue name="ORDER-CATEGORY-GBLFY-QUEUE" auto-declare="true" durable="true"/>
 
     <!-- 声明多个消费者对象 -->
-    <bean id="fisMQMsgHandler" class="com.gblfy.order.mqhandler.FisMQMsgHandler"/>
-    <bean id="fisMQMonitorMsgHandler" class="com.gblfy.order.mqhandler.FisMQMonitorMsgHandler"/>
     <bean id="mQSimpleMsgHandler" class="com.gblfy.order.mqhandler.MQSimpleMsgHandler"/>
+    <bean id="orderMQMonitorMsgHandler" class="com.gblfy.order.mqhandler.OrderMQMonitorMsgHandler"/>
 
     <!-- 监听队列 -->
     <rabbit:listener-container connection-factory="connectionFactory">
-        <rabbit:listener ref="fisMQMsgHandler" method="execute" queue-names="FIS-TRACE-QUEUE"/>
-        <rabbit:listener ref="fisMQMonitorMsgHandler" method="onMessage" queue-names="FIS-TRACE-MONITOR-QUEUE"/>
-        <rabbit:listener ref="mQSimpleMsgHandler" method="execute" queue-names="ORDER-MENU-CATEGORY-QUEUE"/>
+        <rabbit:listener ref="mQSimpleMsgHandler" method="execute" queue-names="ORDER-CATEGORY-GBLFY-QUEUE"/>
+        <rabbit:listener ref="orderMQMonitorMsgHandler" method="execute" queue-names="ORDER-USER-MENU-QUEUE"/>
     </rabbit:listener-container>
 </beans>
