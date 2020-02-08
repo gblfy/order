@@ -14,7 +14,7 @@ import java.util.Date;
 
 @Controller
 @Slf4j
-public class TopicMQMsgSendController {
+public class FanoutMQMsgSendController {
 
     @Autowired
     private MQSendMsgUtils mqSendMsgUtils;
