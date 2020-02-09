@@ -24,3 +24,4 @@ public class ConfirmCallBackListener implements RabbitTemplate.ConfirmCallback{
      * https://blog.csdn.net/weixin_34336292/article/details/91726977
      */
 }
+

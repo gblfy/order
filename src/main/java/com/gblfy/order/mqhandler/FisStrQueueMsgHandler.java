@@ -4,58 +4,64 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class OrderMQMonitorMsgHandler implements ChannelAwareMessageListener {
+public class FisStrQueueMsgHandler implements ChannelAwareMessageListener {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
+    /**
+     * 接收MQ 消息
+     *
+     * @param message
+     * @param channel
+     * @throws Exception
+     */
     @Override
     public void onMessage(Message message, Channel channel) throws Exception {
 
-        // msg就是rabbitmq传来的消息
-        // 使用jackson解析
-        MessageProperties messageProperties = message.getMessageProperties();
-
-        log.info("编码类型:" + messageProperties.getContentType());
-        log.info("编码:" + messageProperties.getContentEncoding());
-        log.info("交换机:" + messageProperties.getReceivedExchange());
-        log.info("路由:" + messageProperties.getReceivedRoutingKey());
-        log.info("额外自定义的属性:" + messageProperties.getHeaders());
         String msg = new String(message.getBody());
-        System.err.println("--------------------------------------" );
+        log.info("接收MQ消息:" + msg);
 
-
-        System.err.println("--------------------------------------");
-        System.err.println("消费端Payload: " + message.getBody());
-//        byte[] body = message.getBody();
-
-
-/**
- * 4中消息确认方式
- * //消息的标识，false只确认当前一个消息收到，true确认所有consumer获得的消息
- *         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
- *
- *         //ack返回false，并重新回到队列，api里面解释得很清楚
- *         channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
- *
- *         //丢弃这条消息
- *         channel.basicNack(message.getMessageProperties().getDeliveryTag(), false,false);
- *
- *         //拒绝消息
- *         channel.basicReject(message.getMessageProperties().getDeliveryTag(), true);
- */
-
-
-        long deliveryTag = message.getMessageProperties().getDeliveryTag();
         // 消息的标识，false只确认当前一个消息收到，true确认所有consumer获得的消息
-        channel.basicAck(deliveryTag, false);
-//        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
     }
+
+
+    // msg就是rabbitmq传来的消息
+    // 使用jackson解析
+//        MessageProperties messageProperties = message.getMessageProperties();
+//
+//        log.info("编码类型:" + messageProperties.getContentType());
+//        log.info("编码:" + messageProperties.getContentEncoding());
+//        log.info("交换机:" + messageProperties.getReceivedExchange());
+//        log.info("路由:" + messageProperties.getReceivedRoutingKey());
+//        log.info("额外自定义的属性:" + messageProperties.getHeaders());
+
+
+    /**
+     * 4中消息确认方式
+     * //消息的标识，false只确认当前一个消息收到，true确认所有consumer获得的消息
+     * channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+     * <p>
+     * //ack返回false，并重新回到队列，api里面解释得很清楚
+     * channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+     * <p>
+     * //丢弃这条消息
+     * channel.basicNack(message.getMessageProperties().getDeliveryTag(), false,false);
+     * <p>
+     * //拒绝消息
+     * channel.basicReject(message.getMessageProperties().getDeliveryTag(), true);
+     */
+
+
+//        long deliveryTag = message.getMessageProperties().getDeliveryTag();
+    // 消息的标识，false只确认当前一个消息收到，true确认所有consumer获得的消息
+//        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+//    }
 
 //    public void onMessage(org.springframework.amqp.core.Message message, AMQP.Channel channel) {
 //        System.err.println("--------------------------------------");

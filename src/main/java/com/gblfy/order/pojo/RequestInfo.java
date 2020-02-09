@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * 轨迹保存数据对象封装类
  */
@@ -12,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RequestInfo {
+public class RequestInfo implements Serializable {
     private FisCallingTrace fisCallingTrace;
     private String mReqXml; // 请求报文
     private String mResXml; // 响应报文

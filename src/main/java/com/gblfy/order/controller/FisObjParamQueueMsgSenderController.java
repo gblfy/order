@@ -16,7 +16,7 @@
 //
 //@Controller
 //@Slf4j
-//public class TopicMQMsgSendController {
+//public class FisObjParamQueueMsgSenderController {
 //
 //    @Autowired
 //    private MQSendMsgUtils mqSendMsgUtils;

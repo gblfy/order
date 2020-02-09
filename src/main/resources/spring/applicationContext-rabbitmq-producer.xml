@@ -23,20 +23,24 @@
 
     <!--此处为配置文件方式 管控台配置模式需要注释  默认模式管控台 Start-->
     <!-- 定义一个队列或者多个队列  自动声明-->
-    <!--<rabbit:queue name="ORDER-CATEGORY-GBLFY-QUEUE" auto-declare="true" durable="true"/>-->
-    <rabbit:queue name="ORDER-USER-MENU-QUEUE" auto-declare="true" durable="true"/>
+    <rabbit:queue name="FIS-STRING-QUEUE" auto-declare="true" durable="true"/>
+    <rabbit:queue name="FIS-STRING-PARAM-QUEUE" auto-declare="true" durable="true"/>
+    <rabbit:queue name="FIS-TRACE-OBJ-QUEUE" auto-declare="true" durable="true"/>
+    <rabbit:queue name="FIS-TRACE-OBJ-PARAM-QUEUE" auto-declare="true" durable="true"/>
 
-    <rabbit:topic-exchange name="ORDER-TRACE-EXCHANGE">
+    <rabbit:topic-exchange name="FIS-TRACE-COMMON-EXCHANGE">
         <rabbit:bindings>
             <!-- 可绑定多个队列，发送的时候指定key进行发送 -->
-            <!--<rabbit:binding queue="ORDER-CATEGORY-GBLFY-QUEUE" pattern="order.#"/>-->
-            <rabbit:binding queue="ORDER-USER-MENU-QUEUE" pattern="order.*"/>
+            <rabbit:binding queue="FIS-STRING-QUEUE" pattern="fis-str.#"/>
+            <rabbit:binding queue="FIS-STRING-PARAM-QUEUE" pattern="fis-str-param.#"/>
+            <rabbit:binding queue="FIS-TRACE-OBJ-QUEUE" pattern="fis-trace-obj.*"/>
+            <rabbit:binding queue="FIS-TRACE-OBJ-PARAM-QUEUE" pattern="fis-trace-obj-param.*"/>
         </rabbit:bindings>
     </rabbit:topic-exchange>
     <!--此处为配置文件方式 管控台配置模式需要注释  默认模式管控台 End-->
 
     <!-- 定义交换机 自动声明-->
-    <rabbit:topic-exchange name="ORDER-TRACE-EXCHANGE"
+    <rabbit:topic-exchange name="FIS-TRACE-COMMON-EXCHANGE"
                            auto-declare="true" durable="true"/>
 
     <!-- 定义MQ消息模板
@@ -50,7 +54,7 @@
     -->
     <rabbit:template id="rabbitTemplate"
                      connection-factory="connectionFactory"
-                     exchange="ORDER-TRACE-EXCHANGE"
+                     exchange="FIS-TRACE-COMMON-EXCHANGE"
                      confirm-callback="confirmCallBackListener"
                      return-callback="returnCallBackListener"
                      mandatory="true" />
