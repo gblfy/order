@@ -6,14 +6,13 @@ import com.gblfy.order.pojo.FisCallingTrace;
 import com.gblfy.order.pojo.RequestInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.support.CorrelationData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.UUID;
 
 /**
  * MQ发送消息公用工具类
@@ -60,6 +59,7 @@ public class MQSendMsgUtils {
 
             //发送消息到MQ的交换机，通知其他系统
             String jsonStr = JSON.toJSONString(requestInfo);
+
             rabbitTemplate.convertAndSend("order." + type, jsonStr);
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,17 +72,45 @@ public class MQSendMsgUtils {
      * @param serviceName 接口名称
      * @param type        路由routingKey
      */
-    public void sendMsg(String serviceName, String type) {
+    public void sendMsg(String type, FisCallingTrace fisCallingTrace) {
         try {
-            //发送消息到MQ的交换机，通知其他系统
-            Map<String, Object> msg = new HashMap<String, Object>();
-            msg.put("serviceName", serviceName);
-            msg.put("routingKey", type);
-            msg.put("currentDate", dateFormat.format(new Date()));
-            rabbitTemplate.convertAndSend("order." + type, MAPPER.writeValueAsString(msg));
+
+
+            String uuid2 = UUID.randomUUID().toString();
+            CorrelationData correlationId = new CorrelationData(uuid2);
+
+            rabbitTemplate.convertAndSend("order." + type, fisCallingTrace, correlationId);
         } catch (Exception e) {
             e.printStackTrace();
         }
+//    public void sendMsg(String type, Object message, Map<String, Object> properties) {
+//        try {
+//
+//            MessageHeaders mhs = new MessageHeaders(properties);
+//            Message msg = MessageBuilder.createMessage(message, mhs);
+//
+//            String uuid2 = UUID.randomUUID().toString();
+//            CorrelationData correlationId = new CorrelationData(uuid2);
+//
+//            rabbitTemplate.convertAndSend("order." + type, msg, correlationId);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    public void sendMsg(String serviceName, String type) {
+//        try {
+//            //发送消息到MQ的交换机，通知其他系统
+//            Map<String, Object> msg = new HashMap<String, Object>();
+//            msg.put("serviceName", serviceName);
+//            msg.put("routingKey", type);
+//            msg.put("currentDate", dateFormat.format(new Date()));
+//
+//            String uuid2 = UUID.randomUUID().toString();
+//            CorrelationData correlationId = new CorrelationData(uuid2);
+//
+//            rabbitTemplate.convertAndSend("order." + type, (Object) MAPPER.writeValueAsString(msg),correlationId);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
 //    public static void main(String[] args) {

@@ -10,29 +10,48 @@
     <!--生产者者配置如下：-->
     <!-- 定义RabbitMQ的连接工厂 -->
     <rabbit:connection-factory id="connectionFactory"
-                               host="${rabbitmq.host}" port="${rabbitmq.port}" username="${rabbitmq.username}"
-                               password="${rabbitmq.password}" virtual-host="${rabbitmq.vhost}"/>
+                               host="${rabbitmq.host}"
+                               port="${rabbitmq.port}"
+                               username="${rabbitmq.username}"
+                               password="${rabbitmq.password}"
+                               virtual-host="${rabbitmq.vhost}"
+                               connection-timeout="${rabbitmq.conTimeout}"
+                               publisher-confirms="${rabbitmq.publisher-confirms}"
+                               publisher-returns="${rabbitmq.publisher-returns}"/>
     <!-- 管理消息队列 -->
     <rabbit:admin connection-factory="connectionFactory"/>
 
     <!--此处为配置文件方式 管控台配置模式需要注释  默认模式管控台 Start-->
     <!-- 定义一个队列或者多个队列  自动声明-->
-   <!-- <rabbit:queue name="ORDER-CATEGORY-GBLFY-QUEUE" auto-declare="true" durable="true"/>
+    <!--<rabbit:queue name="ORDER-CATEGORY-GBLFY-QUEUE" auto-declare="true" durable="true"/>-->
     <rabbit:queue name="ORDER-USER-MENU-QUEUE" auto-declare="true" durable="true"/>
 
-    <rabbit:fanout-exchange name="ORDER-TRACE-EXCHANGE">
+    <rabbit:topic-exchange name="ORDER-TRACE-EXCHANGE">
         <rabbit:bindings>
-            &lt;!&ndash; 可绑定多个队列，发送的时候指定key进行发送 &ndash;&gt;
-            <rabbit:binding queue="ORDER-CATEGORY-GBLFY-QUEUE"/>
-            <rabbit:binding queue="ORDER-USER-MENU-QUEUE"/>
+            <!-- 可绑定多个队列，发送的时候指定key进行发送 -->
+            <!--<rabbit:binding queue="ORDER-CATEGORY-GBLFY-QUEUE" pattern="order.#"/>-->
+            <rabbit:binding queue="ORDER-USER-MENU-QUEUE" pattern="order.*"/>
         </rabbit:bindings>
-    </rabbit:fanout-exchange>-->
+    </rabbit:topic-exchange>
     <!--此处为配置文件方式 管控台配置模式需要注释  默认模式管控台 End-->
 
     <!-- 定义交换机 自动声明-->
-    <rabbit:fanout-exchange name="ORDER-TRACE-EXCHANGE"
+    <rabbit:topic-exchange name="ORDER-TRACE-EXCHANGE"
                            auto-declare="true" durable="true"/>
-    <!-- 定义MQ消息模板 -->
+
+    <!-- 定义MQ消息模板
+      1. id                 ： 定义消息模板ID
+      2.connection-factory  ： 把定义的连接工厂放到消息模板中
+      3.confirm-callback    ： confirm确认机制
+      4.return-callback     ： return确认机制
+      5.mandatory           ：#有2种状态
+                              设置为 true 后 消费者在消息没有被路由到合适队列情况下会被return监听，而不会自动删除；
+                              设置为 false 后 消费者在消息没有被路由到合适队列情况下会自动删除
+    -->
     <rabbit:template id="rabbitTemplate"
-                     connection-factory="connectionFactory" exchange="ORDER-TRACE-EXCHANGE"/>
+                     connection-factory="connectionFactory"
+                     exchange="ORDER-TRACE-EXCHANGE"
+                     confirm-callback="confirmCallBackListener"
+                     return-callback="returnCallBackListener"
+                     mandatory="true" />
 </beans>

@@ -11,21 +11,26 @@
     <!-- 定义RabbitMQ的连接工厂 -->
     <rabbit:connection-factory id="connectionFactory"
                                host="${rabbitmq.host}" port="${rabbitmq.port}" username="${rabbitmq.username}"
-                               password="${rabbitmq.password}" virtual-host="${rabbitmq.vhost}"/>
+                               password="${rabbitmq.password}" virtual-host="${rabbitmq.vhost}"
+    connection-timeout="${rabbitmq.conTimeout}"/>
     <!-- 管理消息队列 -->
     <rabbit:admin connection-factory="connectionFactory"/>
 
     <!-- 定义一个队列或者多个队列 -->
     <rabbit:queue name="ORDER-USER-MENU-QUEUE" auto-declare="true" durable="true"/>
-    <rabbit:queue name="ORDER-CATEGORY-GBLFY-QUEUE" auto-declare="true" durable="true"/>
-
+    <!--<rabbit:queue name="ORDER-CATEGORY-GBLFY-QUEUE" auto-declare="true" durable="true"/>
+-->
     <!-- 声明多个消费者对象 -->
     <bean id="mQSimpleMsgHandler" class="com.gblfy.order.mqhandler.MQSimpleMsgHandler"/>
-    <bean id="orderMQMonitorMsgHandler" class="com.gblfy.order.mqhandler.OrderMQMonitorMsgHandler"/>
+<!--    <bean id="orderMQMonitorMsgHandler" class="com.gblfy.order.mqhandler.OrderMQMonitorMsgHandler"/>-->
 
-    <!-- 监听队列 -->
-    <rabbit:listener-container connection-factory="connectionFactory">
-        <rabbit:listener ref="mQSimpleMsgHandler" method="execute" queue-names="ORDER-CATEGORY-GBLFY-QUEUE"/>
+    <!-- 监听队列
+      1. connectionFactory 连接工厂
+      2. manual 手动签收
+      3. ref="" 消费者监听
+    -->
+    <rabbit:listener-container connection-factory="connectionFactory" acknowledge="manual">
+        <!--<rabbit:listener ref="mQSimpleMsgHandler" method="execute" queue-names="ORDER-CATEGORY-GBLFY-QUEUE"/>-->
         <rabbit:listener ref="orderMQMonitorMsgHandler" method="execute" queue-names="ORDER-USER-MENU-QUEUE"/>
     </rabbit:listener-container>
 </beans>
