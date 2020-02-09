@@ -19,12 +19,18 @@ import java.util.UUID;
 public class FisObjQueueMsgSenderController {
 
     @Autowired
-    private MQSendMsgUtils MQSendMsgUtils;
+    private MQSendMsgUtils mQSendMsgUtils;
 
     //格式化时间
     public static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");// 日期格式
     public static final DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");// 日期格式
 
+    /**
+     * 发送MQ ObjPOJO类型消息
+     *
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/snedObjPOJOMQMsg", method = RequestMethod.GET)
     @ResponseBody
     public String snedObjPOJOMQMsg() throws Exception {
@@ -42,7 +48,7 @@ public class FisObjQueueMsgSenderController {
         String routingKey = "trace";
 
         //调用MQ松松消息公共方法
-        MQSendMsgUtils.snedObjPOJOMQMsg(mFisCallingTrace, routingKey, reqXml, resXml, uuid);
+        mQSendMsgUtils.snedObjPOJOMQMsg(mFisCallingTrace, routingKey, reqXml, resXml, uuid);
 
 
         return "snedObjPOJOMQMsg success !!!";

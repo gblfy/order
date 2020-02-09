@@ -14,6 +14,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class FisTraceObjMsgHandler implements ChannelAwareMessageListener {
 
+    /**
+     * 接收MQ ObjPOJO类型消息
+     *
+     * @param message     消息实体
+     * @param channel     消息通道
+     * @throws Exception  抛出异常
+     */
     @Override
     public void onMessage(Message message, Channel channel) throws Exception {
 
@@ -52,4 +59,17 @@ public class FisTraceObjMsgHandler implements ChannelAwareMessageListener {
         //注入mqpper 插入数据库 todo
     }
 }
+
+/**
+ * 4种消息确认方式:
+ * <p>
+ * 1. 消息的标识，false只确认当前一个消息收到，true确认所有consumer获得的消息
+ * channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+ * 2. ack返回false，并重新回到队列，api里面解释得很清楚
+ * channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+ * 3. 丢弃这条消息
+ * channel.basicNack(message.getMessageProperties().getDeliveryTag(), false,false);
+ * 4. 拒绝消息
+ * channel.basicReject(message.getMessageProperties().getDeliveryTag(), true);
+ */
 

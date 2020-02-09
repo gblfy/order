@@ -13,8 +13,6 @@ import org.springframework.amqp.rabbit.support.CorrelationData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.UUID;
 
 /**
@@ -32,7 +30,7 @@ import java.util.UUID;
 public class MQSendMsgUtils {
 
     //格式化时间
-    public static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");// 日期格式
+//    public static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");// 日期格式
     //引入json工具类
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -71,7 +69,7 @@ public class MQSendMsgUtils {
      * @param type 路由routingKey
      * @param msg  MQ STRING类型消息
      */
-    public void snedStrMQMsg2(String type, String msg) {
+    public void snedStrMQMsgAndParam(String type, String msg) {
         try {
             /**
              * CorrelationData 说明：
@@ -107,7 +105,7 @@ public class MQSendMsgUtils {
      * @param type 路由routingKey
      * @param msg  MQ STRING类型消息
      */
-    public void snedStrMQMsg3(String type, String msg) throws Exception {
+    public void snedStrMQMsgAndParamT(String type, String msg) throws Exception {
         try {
             /**
              * CorrelationData 说明：
@@ -129,8 +127,11 @@ public class MQSendMsgUtils {
             messageProperties.getHeaders().put("type", "自定义消息类型..");
             Message message = new Message(msg.getBytes(), messageProperties);
 
-            //发送消息到MQ的交换机，通知其他系统
-            //convertAndSend(String routingKey, Object message, MessagePostProcessor messagePostProcessor, CorrelationData correlationData)
+            /**
+             * 发送消息到MQ的交换机，通知其他系统
+             * API
+             * convertAndSend(String routingKey, Object message, MessagePostProcessor messagePostProcessor, CorrelationData correlationData)
+             */
             rabbitTemplate.convertAndSend("fis-str-param." + type, message, new MessagePostProcessor() {
                 @Override
                 public Message postProcessMessage(Message message) throws AmqpException {
@@ -203,7 +204,7 @@ public class MQSendMsgUtils {
      * @param resXml           响应报文
      * @param uuid             随机生成的uuid
      */
-    public void snedObjPOJOMQMsg2(FisCallingTrace mFisCallingTrace, String type, String reqXml, String resXml, String uuid) {
+    public void snedObjPOJOMQMsgAndParam(FisCallingTrace mFisCallingTrace, String type, String reqXml, String resXml, String uuid) {
 
         try {
             RequestInfo requestInfo = new RequestInfo().builder()
@@ -258,7 +259,7 @@ public class MQSendMsgUtils {
      * @param resXml           响应报文
      * @param uuid             随机生成的uuid
      */
-    public void snedObjPOJOMQMsg3(FisCallingTrace mFisCallingTrace, String type, String reqXml, String resXml, String uuid) {
+    public void snedObjPOJOMQMsgAndParamT(FisCallingTrace mFisCallingTrace, String type, String reqXml, String resXml, String uuid) {
 
         try {
             RequestInfo requestInfo = new RequestInfo().builder()

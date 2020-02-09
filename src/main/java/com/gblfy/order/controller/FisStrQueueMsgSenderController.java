@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class FisStrQueueMsgSenderController {
 
     @Autowired
-    private MQSendMsgUtils MQSendMsgUtils;
+    private MQSendMsgUtils mQSendMsgUtils;
 
     /**
-     * 模拟发送MQ STRING类型消息
+     * 发送MQ STRING类型消息
      *
      * @return
      * @throws Exception
@@ -32,9 +32,8 @@ public class FisStrQueueMsgSenderController {
         String msg = "MQ message is 123456";
 
         //发送消息到MQ的交换机，通知其他系统
-        MQSendMsgUtils.snedStrMQMsg(type, msg);
+        mQSendMsgUtils.snedStrMQMsg(type, msg);
 
         return "snedStrMQMsg success !!!";
     }
-
 }
