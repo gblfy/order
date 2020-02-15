@@ -1,5 +1,8 @@
 package com.gblfy.order.re;
 
+import com.gblfy.order.mqhandler.FisTraceObjMsgHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate.ReturnCallback;
 import org.springframework.stereotype.Service;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Service;
  */
 @Service("returnCallBackListener")
 public class ReturnCallBackListener implements ReturnCallback {
+    private final static Logger LOGGER= LoggerFactory.getLogger(FisTraceObjMsgHandler.class);
 
     /**
      * 消息无法路由 触发消息 return机制
@@ -38,4 +42,9 @@ public class ReturnCallBackListener implements ReturnCallback {
  * 消息: CorrelationData [id=30d924db-77b4-41df-bbe6-9a8f0eb3fe7a]，已经被ack成功
  */
 
+public static void main(String[] args) {
+    String ddd="dddd";
+    LOGGER.info("请求报文 mReqXml {} ",ddd);
+
+}
 }
