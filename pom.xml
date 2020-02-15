@@ -16,17 +16,6 @@
     </properties>
 
     <dependencies>
-        <!--<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-messaging</artifactId>
-            <version>4.2.4.RELEASE</version>
-        </dependency>-->
-      <!--  <dependency>
-            <groupId>org.springframework.retry</groupId>
-            <artifactId>spring-retry</artifactId>
-            <version>1.2.5.RELEASE</version>
-      &lt;!&ndash;      <version>1.0.3.RELEASE</version>&ndash;&gt;
-        </dependency>-->
         <!--@Slf4j 日志打印 和lombok注解 Start-->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -56,8 +45,15 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- mybatis 和 spring整合mybatis-->
+        <!--MyBatis-Plus 配置-->
         <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+            <version>3.3.1.tmp</version>
+        </dependency>
+
+        <!-- mybatis 和 spring整合mybatis-->
+       <!-- <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
             <version>3.1.1</version>
@@ -66,7 +62,7 @@
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-spring</artifactId>
             <version>1.2.3</version>
-        </dependency>
+        </dependency>-->
         <!-- mysql 数据库驱动-->
         <dependency>
             <groupId>mysql</groupId>
