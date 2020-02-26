@@ -23,7 +23,7 @@ public class FisStrQueueMsgHandler implements ChannelAwareMessageListener {
     @Override
     public void onMessage(Message message, Channel channel) throws Exception {
 
-        String msg = new String(message.getBody());
+        String msg = new String(message.getBody(),"UTF-8");
         log.info("接收MQ消息:" + msg);
 
         // 消息的标识，false只确认当前一个消息收到，true确认所有consumer获得的消息

@@ -25,7 +25,7 @@ public class FisTraceObjMsgHandler implements ChannelAwareMessageListener {
     public void onMessage(Message message, Channel channel) throws Exception {
 
         //接收MQ消息 轨迹对象数据
-        String jsonMsg = new String(message.getBody());
+        String jsonMsg = new String(message.getBody(),"UTF-8");
 
         // 消息的标识，false只确认当前一个消息收到，true确认所有consumer获得的消息
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
